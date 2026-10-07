@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring of Success Academy | The Blueprint for Excellence</title>
+    <meta name="description" content="Experience the 3D architectural evolution of Spring of Success Academy — a prestigious college-preparatory institution empowering future leaders through innovation, integrity, and achievement." />
+    <link rel="icon" type="image/jpeg" href="/assets/crest.jpg" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Main Navigation Bar -->
+    <header class="navbar" id="main-header">
+      <a href="#" class="nav-brand" id="nav-brand-link">
+        <img src="/assets/crest.jpg" alt="Spring of Success Academy Crest" class="nav-logo-img" />
+        <div class="brand-text">
+          <h1>Spring of Success</h1>
+          <span>Academy • Est. 1928</span>
+        </div>
+      </a>
+
+      <!-- Visual Render Mode Switcher -->
+      <nav class="nav-center-modes" aria-label="Visual Render Modes">
+        <button class="render-mode-btn active" data-mode="3d" id="btn-mode-3d" title="Interactive Real-Time 3D WebGL Campus">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          3D WebGL
+        </button>
+        <button class="render-mode-btn" data-mode="cinematic" id="btn-mode-cinematic" title="High-Resolution Blueprint to Realistic 8K Morph">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 8 6 4-6 4Z"/></svg>
+          Cinematic Morph
+        </button>
+        <button class="render-mode-btn" data-mode="video" id="btn-mode-video" title="Scroll-Scrubbed Custom Video Slot">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect width="14" height="14" x="1" y="5" rx="2" ry="2"/></svg>
+          Video Slot
+        </button>
+      </nav>
+
+      <!-- Navigation Actions -->
+      <div class="nav-actions">
+        <button class="nav-icon-btn" id="inspect-mode-toggle" title="Free 3D Camera Orbit & Pan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+          <span>3D Free View</span>
+        </button>
+
+        <button class="nav-icon-btn" id="audio-toggle-btn" title="Toggle Academic Ambient Soundscape">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span class="audio-label">Ambience: Off</span>
+        </button>
+
+        <a href="#admissions" class="btn-primary" id="header-apply-btn">
+          <span>Apply Now</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <!-- ========================================================
+           SCROLLYTELLING VIEWPORT & TRACK
+           ======================================================== -->
+      <section class="scrollytelling-section" id="scrollytelling-section">
+        <!-- Sticky 3D / 2D / Video Canvas Viewport -->
+        <div class="scrollytelling-viewport">
+          <!-- 1. Real-time Three.js Canvas Container -->
+          <div id="webgl-container"></div>
+
+          <!-- 2. Cinematic 2D Wipe Canvas -->
+          <canvas id="cinematic-canvas"></canvas>
+
+          <!-- 3. Video Scrubbing Slot Container -->
+          <div id="video-slot-container">
+            <video id="scrub-video" muted preload="auto" src="/assets/campus_realistic.jpg">
+              Your browser does not support HTML5 video.
+            </video>
+            <div class="video-controls-overlay">
+              <p>Custom Video Slot: Scrubbing tied to scroll position.</p>
+              <label for="video-file-input" class="video-upload-label">
+                Click here to test your own MP4 video file
+              </label>
+              <input type="file" id="video-file-input" accept="video/mp4,video/webm" />
+            </div>
+          </div>
+
+          <!-- Overlays -->
+          <div class="cad-grid-overlay"></div>
+          <div class="vignette-overlay"></div>
+
+          <!-- Top-Left HUD Telemetry -->
+          <div class="hud-telemetry-top">
+            <span class="hud-badge" id="hud-status-badge">ARCHITECTURAL SCHEMATIC • REV. 4</span>
+            <span class="hud-badge" id="hud-phase-val">PHASE I: BLUEPRINT SCHEMATIC</span>
+          </div>
+
+          <!-- Top-Right HUD Coordinates -->
+          <div class="hud-telemetry-right">
+            <div class="hud-data-row">
+              <span>COORDINATES:</span>
+              <span class="hud-data-val" id="hud-coords-val">34.0522° N, 118.2437° W</span>
+            </div>
+            <div class="hud-data-row">
+              <span>ELEVATION:</span>
+              <span class="hud-data-val" id="hud-alt-val">48m</span>
+            </div>
+            <div class="hud-data-row">
+              <span>SCALE:</span>
+              <span class="hud-data-val">1:250 CAD METRIC</span>
+            </div>
+          </div>
+
+          <!-- Bottom Progress HUD -->
+          <div class="hud-telemetry-bottom">
+            <div class="hud-progress-track">
+              <div class="hud-progress-meta">
+                <span>TRANSFORMATION PROGRESS</span>
+                <span id="hud-progress-val">0%</span>
+              </div>
+              <div class="hud-bar-bg">
+                <div id="hud-progress-bar"></div>
+              </div>
+            </div>
+
+            <div class="hud-scroll-indicator">
+              <span>SCROLL TO BUILD</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrollytelling Scroll Track with 4 Chapters -->
+        <div class="story-scroll-track" id="scrollytelling-track">
+          <!-- Chapter 1 -->
+          <article class="story-chapter active" id="chapter-1">
+            <div class="story-card">
+              <span class="chapter-number">CHAPTER 01 // THE VISION</span>
+              <h2>The Blueprint for Excellence</h2>
+              <p>
+                Every extraordinary achievement begins as a visionary blueprint. Founded in 1928, <strong>Spring of Success Academy</strong> drafts a future where intellectual rigor, ethical leadership, and creative courage converge.
+              </p>
+              <div class="story-stats-grid">
+                <div class="stat-item">
+                  <h3>100%</h3>
+                  <span>College Acceptance</span>
+                </div>
+                <div class="stat-item">
+                  <h3>12:1</h3>
+                  <span>Student-Faculty Ratio</span>
+                </div>
+              </div>
+              <div class="story-cta-row">
+                <a href="#pillars" class="btn-primary">Our Academic Pillars</a>
+                <button class="btn-secondary" data-hotspot-target="clock-tower">Inspect Memorial Tower</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Chapter 2 -->
+          <article class="story-chapter align-right" id="chapter-2">
+            <div class="story-card">
+              <span class="chapter-number">CHAPTER 02 // THE FOUNDATION</span>
+              <h2>Engineering Tomorrow's Leaders</h2>
+              <p>
+                As wireframes resolve into solid steel and stone, our pedagogy transforms innate curiosity into world-class capability. From artificial intelligence and robotics to classical rhetoric and debate, students build enduring intellectual foundations.
+              </p>
+              <div class="story-stats-grid">
+                <div class="stat-item">
+                  <h3>28</h3>
+                  <span>AP & Honors Courses</span>
+                </div>
+                <div class="stat-item">
+                  <h3>$14.2M</h3>
+                  <span>College Merit Awards (2025)</span>
+                </div>
+              </div>
+              <div class="story-cta-row">
+                <button class="btn-primary" data-hotspot-target="stem-lab">Explore Robotics Lab</button>
+                <a href="#admissions" class="btn-secondary">Request Prospectus</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Chapter 3 -->
+          <article class="story-chapter" id="chapter-3">
+            <div class="story-card">
+              <span class="chapter-number">CHAPTER 03 // WORLD-CLASS SPACES</span>
+              <h2>A Living Collegiate Campus</h2>
+              <p>
+                The blueprint becomes reality: 45 acres of collegiate architecture, our two-story Grand Rotunda Library, Olympic-grade athletic pavilions, and open quadrangle grounds where scholars collaborate in a warm, inspiring community.
+              </p>
+              <div class="story-stats-grid">
+                <div class="stat-item">
+                  <h3>45</h3>
+                  <span>Acre Historic Campus</span>
+                </div>
+                <div class="stat-item">
+                  <h3>60k+</h3>
+                  <span>Library Research Volumes</span>
+                </div>
+              </div>
+              <div class="story-cta-row">
+                <button class="btn-primary" data-hotspot-target="library">Grand Rotunda Library</button>
+                <button class="btn-secondary" data-hotspot-target="fountain">Centennial Quad</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Chapter 4 -->
+          <article class="story-chapter align-right" id="chapter-4">
+            <div class="story-card">
+              <span class="chapter-number">CHAPTER 04 // ENROLLMENT 2026–2027</span>
+              <h2>Your Journey Begins Here</h2>
+              <p>
+                The architectural transformation is complete. The doors of Spring of Success Academy stand open for the next generation of changemakers, scientists, artists, and leaders. Applications are now open for Grades 6–12.
+              </p>
+              <div class="story-stats-grid">
+                <div class="stat-item">
+                  <h3>Top 1%</h3>
+                  <span>Nationally Ranked Prep</span>
+                </div>
+                <div class="stat-item">
+                  <h3>100%</h3>
+                  <span>Need-Blind Financial Aid</span>
+                </div>
+              </div>
+              <div class="story-cta-row">
+                <a href="#admissions" class="btn-primary">Book a Campus Tour</a>
+                <a href="#admissions" class="btn-secondary">Apply Online</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Infinite Kinetic Personality Marquee Ticker -->
+      <div class="kinetic-marquee-wrapper" aria-hidden="true">
+        <div class="kinetic-marquee-track">
+          <span>★ KNOWLEDGE • INTEGRITY • ACHIEVEMENT</span>
+          <span class="marquee-highlight">100% UNIVERSITY ACCEPTANCE</span>
+          <span>✦ 45-ACRE LIVING CAMPUS</span>
+          <span class="marquee-highlight">WHERE VISION MEETS RIGOR</span>
+          <span>★ ROBOTICS & AI PAVILION</span>
+          <span class="marquee-highlight">EST. 1928</span>
+          <span>✦ SHAPING TOMORROW'S LEADERS</span>
+          <!-- Duplicate for seamless continuous loop -->
+          <span>★ KNOWLEDGE • INTEGRITY • ACHIEVEMENT</span>
+          <span class="marquee-highlight">100% UNIVERSITY ACCEPTANCE</span>
+          <span>✦ 45-ACRE LIVING CAMPUS</span>
+          <span class="marquee-highlight">WHERE VISION MEETS RIGOR</span>
+          <span>★ ROBOTICS & AI PAVILION</span>
+          <span class="marquee-highlight">EST. 1928</span>
+          <span>✦ SHAPING TOMORROW'S LEADERS</span>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           HOTSPOT DETAIL MODAL / DRAWER
+           ======================================================== -->
+      <aside class="hotspot-modal" id="hotspot-modal" aria-label="Campus Hotspot Detail">
+        <div class="hotspot-modal-header">
+          <img src="/assets/stem_lab.jpg" id="hotspot-modal-img" alt="Campus Facility Detail" />
+          <button class="hotspot-close-btn" id="hotspot-modal-close" aria-label="Close detail modal">✕</button>
+        </div>
+        <div class="hotspot-modal-body">
+          <span id="hotspot-modal-cat">STEM & RESEARCH</span>
+          <h3 id="hotspot-modal-title">Robotics & AI Innovation Pavilion</h3>
+          <p id="hotspot-modal-desc">
+            State-of-the-art makerspaces, bio-chemistry research stations, and autonomous robotics arenas preparing students for top engineering universities.
+          </p>
+        </div>
+      </aside>
+
+      <!-- ========================================================
+           ACADEMIC PILLARS SECTION
+           ======================================================== -->
+      <section class="content-section" id="pillars">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-tag">Academic Excellence</span>
+            <h2 class="section-title">The Four Pillars of Spring of Success</h2>
+            <p class="section-subtitle">
+              A holistic college preparatory environment designed to foster critical thinking, moral clarity, and lifelong scholarship.
+            </p>
+          </div>
+
+          <div class="pillars-grid">
+            <div class="pillar-card">
+              <div class="pillar-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <h3>STEM & AI Exploration</h3>
+              <p>
+                Advanced computer science, robotics, quantum mechanics, and biotechnology labs taught in partnership with premier university researchers.
+              </p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 3 20 18"/><path d="M20 3 2 21"/></svg>
+              </div>
+              <h3>Humanities & Rhetoric</h3>
+              <p>
+                Great books seminar, Socratic debate, global diplomacy, and ethics curriculum cultivating clear communicators and empathetic leaders.
+              </p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              </div>
+              <h3>Fine Arts Conservatory</h3>
+              <p>
+                Symphonic orchestra, classical theater, sculpture, and digital cinema taught in double-height studios and acoustic auditoriums.
+              </p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+              </div>
+              <h3>Championship Athletics</h3>
+              <p>
+                18 varsity sports, Olympic-standard aquatic center, FIFA turf pitch, and comprehensive physical leadership development.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           CAMPUS EXPLORER SECTION
+           ======================================================== -->
+      <section class="campus-explorer-section" id="campus-explorer">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-tag">Interactive Campus Tour</span>
+            <h2 class="section-title">Explore Spring of Success Academy</h2>
+            <p class="section-subtitle">
+              Select any facility below to inspect architectural details, student spaces, and program highlights.
+            </p>
+          </div>
+
+          <div class="hotspots-bar">
+            <button class="hotspot-nav-btn" data-hotspot-target="stem-lab">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+              Robotics & AI Pavilion
+            </button>
+            <button class="hotspot-nav-btn" data-hotspot-target="library">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+              Grand Rotunda Library
+            </button>
+            <button class="hotspot-nav-btn" data-hotspot-target="clock-tower">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Founder's Clock Tower
+            </button>
+            <button class="hotspot-nav-btn" data-hotspot-target="fountain">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+              Centennial Quad & Fountain
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           ADMISSIONS & VIRTUAL TOUR SECTION
+           ======================================================== -->
+      <section class="admissions-section" id="admissions">
+        <div class="section-container">
+          <div class="admissions-box">
+            <div class="admissions-info">
+              <span class="section-tag">Admissions 2026–2027</span>
+              <h2>Begin Your Spring of Success Journey</h2>
+              <p>
+                We seek intellectually inquisitive students with a passion for excellence and a commitment to character. Schedule an in-person or virtual campus tour with our admissions committee.
+              </p>
+              <ul class="admissions-checklist">
+                <li><span class="check-icon">✓</span> Priority Application Deadline: December 15, 2026</li>
+                <li><span class="check-icon">✓</span> Personalized 1-on-1 Student Ambassador Tours</li>
+                <li><span class="check-icon">✓</span> Merit & Need-Blind Scholarships Available</li>
+                <li><span class="check-icon">✓</span> Boarding & Day Scholar Cohorts Available</li>
+              </ul>
+            </div>
+
+            <form class="admissions-form" id="tour-booking-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="student-name">Student Full Name</label>
+                  <input type="text" id="student-name" class="form-input" placeholder="e.g. Jordan Sterling" required />
+                </div>
+                <div class="form-group">
+                  <label for="grade-level">Entering Grade</label>
+                  <select id="grade-level" class="form-select" required>
+                    <option value="">Select Grade</option>
+                    <option value="6">Grade 6 (Middle School)</option>
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9 (Freshman)</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="parent-email">Parent / Guardian Email</label>
+                  <input type="email" id="parent-email" class="form-input" placeholder="guardian@example.com" required />
+                </div>
+                <div class="form-group">
+                  <label for="tour-date">Preferred Tour Date</label>
+                  <input type="date" id="tour-date" class="form-input" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="academic-interest">Primary Area of Interest</label>
+                <select id="academic-interest" class="form-select">
+                  <option value="stem">Advanced STEM, Robotics & AI</option>
+                  <option value="humanities">Humanities, Law & Public Policy</option>
+                  <option value="arts">Fine Arts, Music & Theater</option>
+                  <option value="athletics">Varsity Athletics & Leadership</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn-primary" id="submit-tour-btn">
+                <span>Book Campus Tour & Info Pack</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <h4>Spring of Success Academy</h4>
+          <p>
+            An independent, co-educational college preparatory institution dedicated to scholarship, honor, and leadership.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Academics</h5>
+          <ul class="footer-links">
+            <li><a href="#pillars">Curriculum Overview</a></li>
+            <li><a href="#pillars">Advanced Placement</a></li>
+            <li><a href="#campus-explorer">STEM & AI Labs</a></li>
+            <li><a href="#campus-explorer">Grand Library</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Admissions</h5>
+          <ul class="footer-links">
+            <li><a href="#admissions">How to Apply</a></li>
+            <li><a href="#admissions">Tuition & Financial Aid</a></li>
+            <li><a href="#admissions">Schedule a Tour</a></li>
+            <li><a href="#admissions">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Campus Information</h5>
+          <p class="footer-info-text">
+            1928 Academy Way<br />
+            Spring Valley, CA 91977<br />
+            Admissions: (800) 555-SPRG<br />
+            info@springofsuccess.edu
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Spring of Success Academy. All Rights Reserved.</span>
+        <span>Accredited by National Association of Independent Schools (NAIS)</span>
+      </div>
+    </footer>
+
+    <!-- Main JavaScript Entrypoint -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
